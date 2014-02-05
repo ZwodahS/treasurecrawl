@@ -4,9 +4,21 @@
 #include "../z_framework/zf_sfml/SpriteSheet.hpp"
 #include "../z_framework/zf_sfml/TextureRegion.hpp"
 
+struct Icons24Assets
+{
+    zf::TextureRegion hero;
+    zf::TextureRegion wall;
+    zf::TextureRegion floor;
+};
+
 struct Assets
 {
     sf::Texture master1;
     zf::SpriteSheet masterS1;
+    zf::SpriteSheet icons24S;
+
+    Icons24Assets icons24;
+
+    sf::Font mainFont;
 };
 #endif

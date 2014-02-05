@@ -17,6 +17,10 @@ public:
     virtual void inputs(sf::RenderWindow& window, const sf::Time& delta);
     virtual void textInput(char c);
 
+    // store the 
+    sf::Sprite hero;
+    sf::Sprite wall;
+    sf::Sprite floor;
     /*
      * Screen Enter and exits are omitted.
      * If there is a need to override them, just do so.

@@ -1,0 +1,3 @@
+[submodule "TreasureCrawl/z_framework"]
+	path = TreasureCrawl/z_framework
+	url = https://github.com/ZwodahS/z_framework

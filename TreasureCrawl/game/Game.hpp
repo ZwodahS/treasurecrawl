@@ -39,6 +39,8 @@ class Game
         // the method to load the assets.
         void loadAssets();
 
+        // get the cell size for game.
+        sf::Vector2i getCellSize() const;
     private:
         // The standard update function
         void update(sf::Time delta);

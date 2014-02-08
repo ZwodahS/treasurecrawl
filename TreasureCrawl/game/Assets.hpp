@@ -7,8 +7,8 @@
 struct Icons24Assets
 {
     zf::TextureRegion hero;
-    zf::TextureRegion wall;
-    zf::TextureRegion floor;
+    zf::TextureRegion wall_symbol;
+    zf::TextureRegion floor_background;
 };
 
 struct Assets

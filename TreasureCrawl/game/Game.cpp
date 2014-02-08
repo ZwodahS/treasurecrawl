@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "screens/Screen.hpp"
 #include "screens/MainScreen.hpp"
+#include "screens/GameScreen.hpp"
 #include <SFML/Graphics.hpp>
 #define CLEAR_COLOR sf::Color(20,20,20,255)
 #define GAME_TITLE "Treasure Crawl"
@@ -29,7 +30,8 @@ void Game::run()
     sf::Clock clock;
 
     // define the mainscreen
-    _currentScreen = new MainScreen(*this);
+    // _currentScreen = new MainScreen(*this);
+    _currentScreen = new GameScreen(*this);
 
     // check for quit condition
     while((!_quit || _currentScreen != 0) && window.isOpen())
@@ -116,4 +118,9 @@ void Game::draw(sf::Time delta)
     }
     // display what is drawn
     window.display();
+}
+
+sf::Vector2i Game::getCellSize() const
+{
+    return sf::Vector2i(24, 24);
 }

@@ -29,11 +29,14 @@ void Game::loadAssets()
 
     image.loadFromFile(path + "data/graphics_font/special/at.png");
     assets.icons24.hero = assets.icons24S.createRegion(image);
+    assets.icons24.hero.defaultColor = sf::Color(0, 0, 0);
+
+    image.loadFromFile(path + "data/graphics_font/special/hex.png");
+    assets.icons24.wall_symbol = assets.icons24S.createRegion(image);
+    assets.icons24.wall_symbol.defaultColor = sf::Color(100, 60, 0);
 
     image.loadFromFile(path + "data/graphics_font/special/fill.png");
-    assets.icons24.wall = assets.icons24S.createRegion(image);
-    assets.icons24.wall.defaultColor = sf::Color(100, 60, 0);
+    assets.icons24.floor_background = assets.icons24S.createRegion(image); 
+    assets.icons24.floor_background.defaultColor = sf::Color(230, 195, 145);    
 
-    assets.icons24.floor = assets.icons24S.createRegion(image); 
-    assets.icons24.floor.defaultColor = sf::Color(230, 195, 145);    
 }

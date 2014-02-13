@@ -15,3 +15,19 @@ void Entity::setPosition(const zf::Grid& gridPosition, const sf::Vector2f& sprit
     _spritePosition = spritePosition;
     positionChanged();
 }
+
+void Entity::setZPosition(const int& position)
+{
+    _zPosition = position;
+    positionChanged();
+}
+
+const zf::Grid& Entity::getGridPosition() const
+{
+    return _gridPosition;
+}
+
+const int& Entity::getZPosition() const
+{
+    return _zPosition;
+}

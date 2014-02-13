@@ -50,6 +50,10 @@ bool Terrain::canPutUnitIntoTerrain(Unit& unit)
         return false;
     }
     //TODO , check if the terrain object forbids it.
+    if(_terrainObject != 0)
+    {
+        return false;
+    }
     return true;
 }
 

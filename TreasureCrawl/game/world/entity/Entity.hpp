@@ -31,6 +31,14 @@ public:
     // set the position of this entity.
     void setPosition(const zf::Grid& gridPosition, const sf::Vector2f& spritePositon);
 
+    // set Z position
+    void setZPosition(const int& position);
+
+    // return a reference to the grid position of this entity.
+    const zf::Grid& getGridPosition() const;
+
+    const int& getZPosition() const;
+
     // this method is called by Entity class when there is a position changed.
     // sub class MUST implement this method to be notified of the change.
     virtual void positionChanged() = 0;
@@ -38,5 +46,6 @@ protected:
     // the position of the entity.
     zf::Grid _gridPosition;
     sf::Vector2f _spritePosition;
+    int _zPosition;
 };
 #endif

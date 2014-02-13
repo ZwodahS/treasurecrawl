@@ -61,6 +61,8 @@ class Game
          * Internal boolean for quitting. 
          */
         bool _quit;
+
+        std::vector<char> _textEntered;
 };
 
 

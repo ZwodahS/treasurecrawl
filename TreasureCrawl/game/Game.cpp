@@ -63,6 +63,13 @@ void Game::run()
             {
                 isFocused = true;
             }
+            else if(event.type == sf::Event::TextEntered)
+            {
+                if(event.text.unicode < 128)
+                {
+                    _textEntered.push_back(static_cast<char>(event.text.unicode));
+                }
+            }
         }
 
         // if not quit , update then draw.
@@ -80,11 +87,16 @@ void Game::update(sf::Time delta)
     if(_currentScreen != 0)
     {
         // if it is not focus, we do not process any inputs.
-        if(isFocused || true)
+        if(isFocused)
         {
             _currentScreen->inputs(window, delta);
+            for(std::vector<char>::iterator it = _textEntered.begin() ; it != _textEntered.end() ; ++it)
+            {
+                _currentScreen->textInput(*it);
+            }
+            _textEntered.clear();
         }
-        // update regardless of it is focus. 
+        // update regardless of it is focused. 
         // The other screen will decides if there is a need to pause
         _currentScreen->update(window, delta);    
 

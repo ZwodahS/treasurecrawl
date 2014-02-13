@@ -1,4 +1,5 @@
 #include "../Game.hpp"
+#include "states/PlayerControlState.hpp"
 #include "terrain/Terrain.hpp"
 #include "entity/TerrainObject.hpp"
 #include "entity/Unit.hpp"
@@ -58,10 +59,27 @@ World::World(Game& game)
 
     // spawn the unit onto the terrain.
     spawnUnitIn(*_hero, zf::Grid(heroPosition), 0);
+
+    _currentState = new PlayerControlState(*this);
 }
 
 World::~World()
 {
+}
+
+void World::draw(sf::RenderWindow& window)
+{
+    _currentState->draw(window);
+}
+
+void World::update(sf::RenderWindow& window, const sf::Time& delta)
+{
+    _currentState->update(window, delta);
+}
+
+void World::handleKeyInput(char c)
+{
+    _currentState->input(c);
 }
 
 void World::drawFloor(sf::RenderWindow& window, int floor)
@@ -70,6 +88,72 @@ void World::drawFloor(sf::RenderWindow& window, int floor)
     {
         _floors[floor]->draw(window);
     }
+}
+
+Unit* World::getActiveUnit()
+{
+    return _hero;
+}
+
+bool World::canMoveUnitTo(Unit& unit, const zf::Grid& targetPosition, const int& floorNum)
+{
+    // get the floor, make sure that it is a valid floor.
+    Floor* floor = getFloor(floorNum);
+    if(floor == 0)
+    {
+        return false;
+    }
+
+    // make sure that the terrain exists.
+    Terrain* terrain = floor->getTerrain(targetPosition);
+    if(terrain == 0)
+    {
+        return false;
+    }
+    
+    // check if we can put this unit into the terrain.
+    if(!terrain->canPutUnitIntoTerrain(unit))
+    {
+        return false;
+    }
+
+    // return true if all pass.
+    return true;
+}
+
+bool World::moveUnitTo(Unit& unit, const zf::Grid& targetPosition, const int& floorNum)
+{
+    // check if we can move there
+    if(!canMoveUnitTo(unit, targetPosition, floorNum))
+    {
+        return false;
+    }
+    // remoe the unit from the old terrain if there is any.
+    Floor* oldFloor = getFloor(unit.getZPosition());
+    Terrain* oldTerrain = 0;
+    if(oldFloor != 0)
+    {
+        oldTerrain = oldFloor->getTerrain(unit.getGridPosition());
+    }
+    if(oldTerrain != 0)
+    {
+        // if the unit was in another terrain, remove it from there.
+        oldTerrain->removeUnitFromTerrain();
+    }
+    // we are sure that the floor and terrain is okay.
+    Floor& floor = *getFloor(floorNum);
+    Terrain& terrain = *floor.getTerrain(targetPosition);
+
+    // put the unit into the terrain.
+    terrain.putUnitIntoTerrain(unit); 
+
+    // get the cell size
+    sf::Vector2i cellSize = _game.getCellSize();
+    // set the position.
+    unit.setPosition(targetPosition, sf::Vector2f(cellSize.x * targetPosition.col, cellSize.y * targetPosition.row));
+    // set the z position
+    unit.setZPosition(floorNum);
+    return true;
 }
 
 bool World::spawnUnitIn(Unit& unit, const zf::Grid& grid, const int& floor)
@@ -95,7 +179,13 @@ bool World::spawnUnitIn(Unit& unit, const zf::Grid& grid, const int& floor)
     if(terrain->putUnitIntoTerrain(unit))
     {
         unit.setPosition(grid, sf::Vector2f(cellSize.x * grid.col , cellSize.y * grid.row));
+        unit.setZPosition(floor);
         return true;
     }
     return false;
+}
+
+Floor* World::getFloor(const int& floor)
+{
+    return (_floors.size() <= floor || floor < 0 ) ? 0 : _floors[floor];
 }

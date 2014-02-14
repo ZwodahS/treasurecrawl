@@ -66,8 +66,11 @@ void StateManager::pushState(State& state)
 
 void StateManager::popState()
 {
-    _markedForRemoval.push_back(_stack.back());
-    _stack.pop_back();
+    if(_stack.size() > 0)
+    {
+        _markedForRemoval.push_back(_stack.back());
+        _stack.pop_back();
+    }
 }
 
 void StateManager::clearAllState()

@@ -5,15 +5,15 @@
 class PlayerControlState : public State
 {
 public:
-    PlayerControlState(World& world);
+    PlayerControlState(World& world, StateManager& manager);
     virtual ~PlayerControlState();
 
-    virtual void draw(sf::RenderWindow& window);
-    virtual void update(sf::RenderWindow& window, const sf::Time& delta);
-    virtual void input(char inputChar);
+    virtual bool draw(sf::RenderWindow& window);
+    virtual bool update(sf::RenderWindow& window, const sf::Time& delta);
+    virtual bool input(char inputChar);
 
 protected:
-
-    void move(const zf::Direction& direction);
+    
+    virtual void move(const zf::Direction& direction);
 };
 #endif

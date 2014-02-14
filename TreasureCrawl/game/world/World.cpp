@@ -22,7 +22,7 @@ Terrain& makeRandomTerrain(Game& game)
 }
 
 World::World(Game& game)
-    : _game(game), _hero(0)
+    : _game(game), _hero(0), _stateManager(*this)
 {
     // const value to be replace with actual code later.
     const zf::Grid heroPosition(0, 0);
@@ -60,7 +60,7 @@ World::World(Game& game)
     // spawn the unit onto the terrain.
     spawnUnitIn(*_hero, zf::Grid(heroPosition), 0);
 
-    _currentState = new PlayerControlState(*this);
+    _stateManager.pushState(_stateManager.makePlayerControlState());
 }
 
 World::~World()
@@ -69,17 +69,17 @@ World::~World()
 
 void World::draw(sf::RenderWindow& window)
 {
-    _currentState->draw(window);
+    _stateManager.draw(window);
 }
 
 void World::update(sf::RenderWindow& window, const sf::Time& delta)
 {
-    _currentState->update(window, delta);
+    _stateManager.update(window, delta);
 }
 
 void World::handleKeyInput(char c)
 {
-    _currentState->input(c);
+    _stateManager.handleKeyInput(c);
 }
 
 void World::drawFloor(sf::RenderWindow& window, int floor)

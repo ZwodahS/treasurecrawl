@@ -1,7 +1,7 @@
 #include "State.hpp"
 
-State::State(World& world)
-    : _world(world)
+State::State(World& world, StateManager& manager)
+    : _world(world), _manager(manager)
 {
 }
 

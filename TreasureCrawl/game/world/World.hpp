@@ -1,6 +1,7 @@
 #ifndef _GAME_WORLD_WORLD_H_
 #define _GAME_WORLD_WORLD_H_
 #include "../../z_framework/zf_common/Grid.hpp"
+#include "StateManager.hpp"
 class Game;
 class State;
 class Floor;
@@ -46,7 +47,7 @@ private:
     bool spawnUnitIn(Unit& unit, const zf::Grid& grid, const int& floor);
 
     Floor* getFloor(const int& floor);
-
-    State* _currentState;
+    
+    StateManager _stateManager;
 };
 #endif

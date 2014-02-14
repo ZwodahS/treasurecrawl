@@ -1,8 +1,8 @@
 #include "PlayerControlState.hpp"
+#include "../StateManager.hpp"
 #include "../World.hpp"
-#include "../entity/Unit.hpp"
-PlayerControlState::PlayerControlState(World& world)
-    : State(world)
+PlayerControlState::PlayerControlState(World& world, StateManager& manager)
+    : State(world, manager)
 {
 }
 
@@ -10,16 +10,18 @@ PlayerControlState::~PlayerControlState()
 {
 }
 
-void PlayerControlState::draw(sf::RenderWindow& window)
+bool PlayerControlState::draw(sf::RenderWindow& window)
 {
     _world.drawFloor(window, 0);
+    return false;
 }
 
-void PlayerControlState::update(sf::RenderWindow& window, const sf::Time& delta)
+bool PlayerControlState::update(sf::RenderWindow& window, const sf::Time& delta)
 {
+    return false;
 }
 
-void PlayerControlState::input(char inputChar)
+bool PlayerControlState::input(char inputChar)
 {
     switch(inputChar)
     {
@@ -41,33 +43,10 @@ void PlayerControlState::input(char inputChar)
                    break;
         default : break;
     }
+    return false;
 }
-
-
 
 void PlayerControlState::move(const zf::Direction& direction)
 {
-    // since we are in the player control state, the active unit MUST be the hero.
-    Unit* playerUnit = _world.getActiveUnit();
-    // just a small safety check.
-    if(playerUnit == 0)
-    {
-        return;
-    }
-    // get the target location
-    const zf::Grid target = zf::getModifier(direction) + playerUnit->getGridPosition();
-    // we will check if there is something to attack later.
-    // for now, we will just call the method to move to that position.
-    // We hardcode the value of floor for now.
-    if(_world.moveUnitTo(*playerUnit, target, playerUnit->getZPosition()))
-    {
-        // The unit successfully moved.
-        // For now, we do nothing. Later we will need to transit to the state
-        // to calculate whose turn it is.
-    }
-    else
-    {
-        // The unit cannot move there.
-        // We will display a message later.
-    }
+    _manager.pushState(_manager.makePlayerMoveState(direction));
 }

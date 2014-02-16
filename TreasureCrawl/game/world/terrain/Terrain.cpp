@@ -3,6 +3,7 @@
 #include "../entity/TerrainObject.hpp"
 Terrain::Terrain(const sf::Sprite& background)
     : _gridPosition(0, 0), _spritePosition(0, 0), _background(background), _unit(0), _terrainObject(0)
+    , _isVisible(false), _isExplored(false)
 {
 }
 
@@ -12,14 +13,17 @@ Terrain::~Terrain()
 
 void Terrain::draw(sf::RenderWindow& window)
 {
-    window.draw(_background);
-    if(_unit != 0)
+    if(_isVisible)
     {
-        _unit->drawOnWorld(window);
-    }
-    else if(_terrainObject != 0)
-    {
-        _terrainObject->drawOnWorld(window);
+        window.draw(_background);
+        if(_unit != 0)
+        {
+            _unit->drawOnWorld(window);
+        }
+        else if(_terrainObject != 0)
+        {
+            _terrainObject->drawOnWorld(window);
+        }
     }
 }
 
@@ -111,3 +115,33 @@ TerrainObject* Terrain::removeTerrainObjectFromTerrain()
     return temp;
 }
 
+void Terrain::setVisible(const bool& visible)
+{
+    _isVisible = visible;
+}
+
+bool Terrain::isVisible()
+{
+    return _isVisible;
+}
+
+void Terrain::setExplored(const bool& explored)
+{
+    _isExplored = explored;
+}
+
+bool Terrain::isExplored()
+{
+    return _isExplored;
+}
+
+bool Terrain::hasVisionBlocker() const
+{
+    // for now , if there is a terrain object, we block vision.
+    return _terrainObject == 0 ? false : true;
+}
+
+bool Terrain::isLit() const
+{
+    return true;
+}

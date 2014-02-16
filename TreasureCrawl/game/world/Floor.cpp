@@ -42,3 +42,8 @@ Terrain* Floor::getTerrain(const zf::Grid& grid)
 {
     return _terrains.get(grid);
 }
+
+zf::Grid Floor::getMaxSize()
+{
+    return zf::Grid(_terrains.row, _terrains.col);
+}

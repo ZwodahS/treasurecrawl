@@ -2,10 +2,12 @@
 #define _GAME_WORLD_WORLD_H_
 #include "../../z_framework/zf_common/Grid.hpp"
 #include "StateManager.hpp"
+#include <set>
 class Game;
 class State;
 class Floor;
 class Unit;
+class Terrain;
 class World
 {
 public:
@@ -49,5 +51,13 @@ private:
     Floor* getFloor(const int& floor);
     
     StateManager _stateManager;
+
+    void updateVision();
+    
+    // get the visible grid for this units.
+    // Returns a set instead of vector to allow faster seaching.
+    std::set<zf::Grid> getVisions(Unit& unit);
+
+    std::vector<Terrain*> _visibleTerrains;
 };
 #endif

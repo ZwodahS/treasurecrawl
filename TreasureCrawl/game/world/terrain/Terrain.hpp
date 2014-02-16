@@ -37,6 +37,18 @@ public:
     TerrainObject* getTerrainObjectInTerrain() const;
     // remove the terrain object from this terrain.
     TerrainObject* removeTerrainObjectFromTerrain();
+
+    // set the visibility of the terrain.
+    void setVisible(const bool& visible);
+    bool isVisible();
+    void setExplored(const bool& visible);
+    bool isExplored();
+
+    // if there is any vision blocker.
+    bool hasVisionBlocker() const ;
+    
+    // if this terrain is lit.
+    bool isLit() const;
 protected:
     // the positions of the terrain object
     zf::Grid _gridPosition;
@@ -49,6 +61,11 @@ protected:
     Unit* _unit;
 
     TerrainObject* _terrainObject;
+
+    // this value is only for the player.
+    bool _isVisible;
+    bool _isExplored;
+    
 private:
 };
 #endif

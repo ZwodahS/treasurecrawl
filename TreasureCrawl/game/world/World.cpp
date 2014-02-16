@@ -1,4 +1,5 @@
 #include "../Game.hpp"
+#include "../f_helper.hpp"
 #include "states/PlayerControlState.hpp"
 #include "terrain/Terrain.hpp"
 #include "entity/TerrainObject.hpp"
@@ -128,7 +129,7 @@ bool World::moveUnitTo(Unit& unit, const zf::Grid& targetPosition, const int& fl
     {
         return false;
     }
-    // remoe the unit from the old terrain if there is any.
+    // remove the unit from the old terrain if there is any.
     Floor* oldFloor = getFloor(unit.getZPosition());
     Terrain* oldTerrain = 0;
     if(oldFloor != 0)
@@ -153,6 +154,7 @@ bool World::moveUnitTo(Unit& unit, const zf::Grid& targetPosition, const int& fl
     unit.setPosition(targetPosition, sf::Vector2f(cellSize.x * targetPosition.col, cellSize.y * targetPosition.row));
     // set the z position
     unit.setZPosition(floorNum);
+    updateVision();
     return true;
 }
 
@@ -188,4 +190,81 @@ bool World::spawnUnitIn(Unit& unit, const zf::Grid& grid, const int& floor)
 Floor* World::getFloor(const int& floor)
 {
     return (_floors.size() <= floor || floor < 0 ) ? 0 : _floors[floor];
+}
+
+std::set<zf::Grid> World::getVisions(Unit& unit)
+{
+    std::set<zf::Grid> visibleGrids;
+
+    // get the floor that the unit is in.
+    Floor* floor = getFloor(unit.getZPosition());
+    if(floor == 0)
+    {
+        return visibleGrids;
+    }
+    
+    // get the square vision boundary.
+    std::vector<zf::Grid> visionBoundary = getSquareVisionBoundary(unit.getVisionRange(), unit.getGridPosition(), floor->getMaxSize());
+ 
+    // for every grid in the boundary, we draw a line to it.
+    for(std::vector<zf::Grid>::iterator it = visionBoundary.begin() ; it != visionBoundary.end() ; ++it)
+    {
+        std::vector<zf::Grid> los = getLine(_hero->getGridPosition(), *it);
+
+        // iterate through the list identify all the grid that we can see.
+        for(std::vector<zf::Grid>::iterator it2 = los.begin() ; it2 != los.end() ; ++it2)
+        {
+            Terrain* terrain = floor->getTerrain(*it2);
+            // safety mechanism.
+            if(terrain != 0)
+            {   
+                // check if the unit can see the terrain.
+                // Normal unit will check if the terran is lit,
+                // Some unit can see in the dark, so they can also see unlit tiles.
+                if(unit.canSee(*terrain))
+                {
+                    visibleGrids.insert(*it2);
+                }
+                // if the unit cannot see through the terrain, then we stop the line
+                if(!unit.canSeeThrough(*terrain))
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    // return the vision set.
+    return visibleGrids;
+}
+
+
+
+void World::updateVision()
+{
+    // clear the cache.
+    for(std::vector<Terrain*>::iterator it = _visibleTerrains.begin() ; it != _visibleTerrains.end() ; ++it)
+    {
+        (**it).setVisible(false);
+    }
+    _visibleTerrains.clear();
+
+    // get the visible grids using the get visions method.
+    std::set<zf::Grid> visibleGrid = getVisions(*_hero);
+
+    // get the floor that the hero is on.
+    Floor* floor = getFloor(_hero->getZPosition());
+
+    // iterate through the list of visible terrains and update their value.
+    for(std::set<zf::Grid>::iterator it = visibleGrid.begin() ; it != visibleGrid.end() ; ++it)
+    {
+        Terrain* terrain = floor->getTerrain(*it);
+        if(terrain != 0)
+        {
+            terrain->setVisible(true);
+            terrain->setExplored(true);
+            _visibleTerrains.push_back(terrain);
+        }
+    }
+
 }

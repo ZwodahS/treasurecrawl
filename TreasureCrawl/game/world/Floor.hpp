@@ -21,6 +21,8 @@ public:
     Terrain* setTerrain(Terrain& terrain);
     // get the terrain at this position.
     Terrain* getTerrain(const zf::Grid& grid);
+
+    zf::Grid getMaxSize();
 private:
 
     zf::TwoDSpace<Terrain*> _terrains;

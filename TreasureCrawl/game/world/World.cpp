@@ -58,6 +58,7 @@ World::World(Game& game)
         delete object;
     }
 
+    _itemTypeManager.load();
     // spawn the unit onto the terrain.
     spawnUnitIn(*_hero, zf::Grid(heroPosition), 0);
 

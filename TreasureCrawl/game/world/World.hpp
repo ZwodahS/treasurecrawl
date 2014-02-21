@@ -2,6 +2,7 @@
 #define _GAME_WORLD_WORLD_H_
 #include "../../z_framework/zf_common/Grid.hpp"
 #include "StateManager.hpp"
+#include "ItemTypeManager.hpp"
 #include <set>
 class Game;
 class State;
@@ -48,10 +49,17 @@ private:
     // return true if it is possible to spawn, false otherwise.
     bool spawnUnitIn(Unit& unit, const zf::Grid& grid, const int& floor);
 
+    // the method to get a floor from this world. 
+    // used internally. return 0 if the floor requested is out of range
     Floor* getFloor(const int& floor);
     
+    // the internal state manager.
     StateManager _stateManager;
 
+    // the internal item manager.
+    ItemTypeManager _itemTypeManager;
+
+    // update the vision of the player.
     void updateVision();
     
     // get the visible grid for this units.

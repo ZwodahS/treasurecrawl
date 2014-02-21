@@ -12,6 +12,7 @@ vpath %.cpp game/world/
 vpath %.cpp game/world/entity/
 vpath %.cpp game/world/terrain/
 vpath %.cpp game/world/states/
+vpath %.cpp game/world/items/
 vpath %.o obj/
 
 WARNING= -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter

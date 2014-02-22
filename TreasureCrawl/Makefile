@@ -13,6 +13,8 @@ vpath %.cpp game/world/entity/
 vpath %.cpp game/world/terrain/
 vpath %.cpp game/world/states/
 vpath %.cpp game/world/items/
+vpath %.cpp game/world/items/itemtypecomps/
+vpath %.cpp game/world/items/iteminstancecomps/
 vpath %.o obj/
 
 WARNING= -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
@@ -33,7 +35,7 @@ zf_sfmlobjs = $(patsubst %, $(OBJDIR)/%, $(zf_sfml:.cpp=.o))
 zf_sfmlsub = $(shell cd z_framework/zf_sfml ; for F in `ls -d */`; do cd $$F ; ls *.cpp ; cd .. ; done)
 zf_sfmlsubobjs = $(patsubst %, $(OBJDIR)/%, $(zf_sfmlsub:.cpp=.o))
 # game code
-game = $(shell 	cd game; ls *.cpp;  for F in `ls -d */` ; do cd $$F; ls *.cpp; for E in `ls -d */`; do cd $$E; ls *.cpp; cd ..; done ; cd ..; done)
+game = $(shell cd game; ls *.cpp; for F in `ls -d */` ; do cd $$F; ls *.cpp; for E in `ls -d */`; do cd $$E; ls *.cpp; for G in `ls -d */` ; do cd $$G; ls *.cpp; cd ..; done; cd ..; done ; cd ..; done)
 gameobjs = $(patsubst %,$(OBJDIR)/%,$(game:.cpp=.o))
 
 main=obj/main.o

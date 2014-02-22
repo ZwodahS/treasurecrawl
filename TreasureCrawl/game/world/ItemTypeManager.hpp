@@ -3,10 +3,7 @@
 #include <map>
 #include <vector>
 
-#include "items/ItemTypeComponent.hpp"
-#include "items/ItemInstanceComponent.hpp"
-class ItemType;
-class ItemInstance;
+#include "items/g_all.hpp"
 class ItemTypeManager
 {
 public:
@@ -27,6 +24,18 @@ private:
      * All the ItemType specific component.
      */
     ItemTypeComponent& makeCollectableItemTypeComponent(const int& baseValue, const int& multiplier) const;
+
+    ItemTypeComponent& makeStackableItemTypeComponent(const int& maxStackSize = -1) const;
+
+    ItemTypeComponent& makeVaryQualityItemTypeComponent(const int& minQuality = 0, const int& maxQuality = 0) const;
+
+    ItemTypeComponent& makeNameItemTypeComponent(const std::vector<std::string> names) const;
+    ItemTypeComponent& makeNameItemTypeComponent(const std::string& name) const;
+
+    ItemTypeComponent& makeMiningToolItemTypeComponent(const int& strength) const;
+    ItemTypeComponent& makeMiningToolItemTypeComponent(const std::vector<int> strengths) const;
+
+    ItemTypeComponent& makeBreakableItemTypeComponent(const int& maxDurability) const;
 
     /**
      * Create a default component of this type.

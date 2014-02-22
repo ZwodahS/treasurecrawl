@@ -1,7 +1,7 @@
+#include "../ItemInstance.hpp"
 #include "LinearCollectableItemTypeComponent.hpp"
-#include "ItemInstance.hpp"
-#include "QualityItemInstanceComponent.hpp"
-#include "StackSizeItemInstanceComponent.hpp"
+#include "../iteminstancecomps/QualityItemInstanceComponent.hpp"
+#include "../iteminstancecomps/StackSizeItemInstanceComponent.hpp"
 LinearCollectableItemTypeComponent::LinearCollectableItemTypeComponent(const int& baseValue, const int& multiplier)
     : _baseValue(baseValue), _multiplier(multiplier)
 {

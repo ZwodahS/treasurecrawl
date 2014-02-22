@@ -1,5 +1,6 @@
 #include "../Game.hpp"
 #include "../f_helper.hpp"
+#include "items/g_all.hpp"
 #include "states/PlayerControlState.hpp"
 #include "terrain/Terrain.hpp"
 #include "entity/TerrainObject.hpp"
@@ -20,6 +21,46 @@ Terrain& makeRandomTerrain(Game& game)
         }
     }
     return *terrain;
+}
+
+void print(ItemInstance* instance)
+{
+    if(instance == 0)
+    {
+        std::cout << "Null instance" << std::endl;
+    }
+    else 
+    {
+        // print the name
+        ItemTypeComponent* comp = instance->type.getComponent(ItemTypeComponent::NameItemTypeComponent);
+        if(comp == 0)
+        {
+            std::cout << "Name component not found !" << std::endl;
+        }
+        else
+        {
+            for(int i = 0 ; i < 6 ; i++)
+            {
+                ItemTypeComponent* varyQualityComp = instance->type.getComponent(ItemTypeComponent::VaryQualityItemTypeComponent);
+                if(varyQualityComp == 0)
+                {
+                    std::cout << "No Vary Quality Comp" << std::endl;
+                    break;
+                }
+                else
+                {
+                    if(static_cast<VaryQualityItemTypeComponent*>(varyQualityComp)->setQualityValue(*instance, i))
+                    {
+                        std::cout << "Name for quality " << i << " is : " << static_cast<NameItemTypeComponent*>(comp)->getName(*instance) << std::endl;
+                    }
+                    else
+                    {
+                        std::cout << "Cannot set the component quality value to " << i << ". Value out range" << std::endl;
+                    }
+                }
+            }
+        }
+    }
 }
 
 World::World(Game& game)
@@ -63,6 +104,20 @@ World::World(Game& game)
     spawnUnitIn(*_hero, zf::Grid(heroPosition), 0);
 
     _stateManager.pushState(_stateManager.makePlayerControlState());
+    
+    { 
+        // temporary debugging used to test the loading of the ItemType and creation of ItemInstance.
+        ItemInstance* ruby = _itemTypeManager.makeItemInstance("item_gem_ruby");
+        print(ruby);
+        ItemInstance* emerald = _itemTypeManager.makeItemInstance("item_gem_emerald");
+        print(emerald);
+        ItemInstance* sapphire = _itemTypeManager.makeItemInstance("item_gem_sapphire");
+        print(sapphire);
+
+        std::cout << "Done debug" << std::endl;
+    }
+
+    updateVision();
 }
 
 World::~World()

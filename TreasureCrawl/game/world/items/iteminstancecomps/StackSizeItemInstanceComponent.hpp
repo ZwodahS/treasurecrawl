@@ -1,6 +1,6 @@
 #ifndef _GAME_WORLD_ITEMS_STACKSIZEITEMINSTANCECOMPONENT_H_
 #define _GAME_WORLD_ITEMS_STACKSIZEITEMINSTANCECOMPONENT_H_
-#include "ItemInstanceComponent.hpp"
+#include "../ItemInstanceComponent.hpp"
 /**
  * StackSizeItemInstanceComponent
  *
@@ -18,7 +18,7 @@ public:
     int getStackSize() const;
 
     /**
-     * Required by ItemTypeComponent
+     * Required by ItemInstanceComponent
      */
     virtual bool isSimilarTo(const ItemInstanceComponent& component) const;
     virtual bool isEqualTo(const ItemInstanceComponent& component) const;

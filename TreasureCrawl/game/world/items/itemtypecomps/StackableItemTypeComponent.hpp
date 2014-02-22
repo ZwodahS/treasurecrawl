@@ -1,6 +1,6 @@
 #ifndef _GAME_WORLD_ITEMS_STACKABLEITEMTYPECOMPONENT_H_
 #define _GAME_WORLD_ITEMS_STACKABLEITEMTYPECOMPONENT_H_
-#include "ItemTypeComponent.hpp"
+#include "../ItemTypeComponent.hpp"
 /**
  * StackableItemTypeComponent
  *

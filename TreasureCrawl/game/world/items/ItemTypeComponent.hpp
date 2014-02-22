@@ -18,10 +18,17 @@ public:
         // The component for the gems and ore. 
         // Contains the method to get the value of the ores.
         CollectableItemTypeComponent,
-        // Mark this type of item as stackable. Also specifies the max stack size.
+        // Mark this type of item as stackable. Also specifies the max stack size. | creates StackSizeItemInstanceComponent
         StackableItemTypeComponent,
-        // State that this object can come in various quality.
+        // State that this object can come in various quality. | creates QualityItemInstanceComponent
         VaryQualityItemTypeComponent,
+        // Defines the name of the items.
+        NameItemTypeComponent,
+        // For Tools that can be used for mining.
+        MiningToolItemComponent,
+        // For items that will degrade over time/uses. | create DurabilityItemInstanceComponent
+        BreakableItemTypeComponent,
+
     };
 
     ItemTypeComponent(const Type& type);

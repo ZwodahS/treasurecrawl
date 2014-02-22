@@ -19,6 +19,8 @@ public:
         QualityItemInstanceComponent,
         // This is use for items that are stackable.
         StackSizeItemInstanceComponent,
+        // For storing the durability of the item. Max durability is stored in item type.
+        DurabilityItemInstanceComponent,
     };
     // store the type for casting to child.
     const Type type;

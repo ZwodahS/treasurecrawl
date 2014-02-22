@@ -1,6 +1,6 @@
 #ifndef _GAME_WORLD_ITEMS_QUALITYITEMINSTANCECOMPONENT_H_
 #define _GAME_WORLD_ITEMS_QUALITYITEMINSTANCECOMPONENT_H_
-#include "ItemInstanceComponent.hpp"
+#include "../ItemInstanceComponent.hpp"
 /**
  * QualityItemInstanceComponent
  *
@@ -22,6 +22,12 @@ public:
      * get the quality value of the ItemInstance
      */
     int getQualityValue() const;
+
+    /**
+     * set the quality value. Before setting, check if the value is in range of the VaryQualityItemTypeComponent
+     * Or just use VaryQualityItemTypeComponent to set instead.
+     */
+    void setQualityValue(const int& value);
 
     /**
      * Required by ItemTypeComponent

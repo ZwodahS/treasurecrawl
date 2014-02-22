@@ -19,6 +19,11 @@ int QualityItemInstanceComponent::getQualityValue() const
     return _quality;
 }
 
+void QualityItemInstanceComponent::setQualityValue(const int& value)
+{
+    _quality = value;
+}
+
 bool QualityItemInstanceComponent::isSimilarTo(const ItemInstanceComponent& component) const
 {
     return isEqualTo(component);
